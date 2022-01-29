@@ -39,3 +39,105 @@ let gameState = {
 
 // You'll have to determine if the snake is self-intersecting (if the "head" is the same value as any of its parts) after each tick()... if so, the game is over. The same goes for walls, which are simply any index outside the bounds of the grid.
 
+
+
+//Starting point:
+
+//onclick
+
+//mathrandom pick the first position
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
+//change max depending on the game size 
+//--> to make into a variable later, 
+//but keep it at least 5/10 positions from the wall
+//let's start with a 30*30 grid
+
+let firstXPosition = getRandomInt(0, 20);
+let firstYPosition = getRandomInt(0, 20);
+
+// store in the snake body array
+
+let snakeBody = [[firstXPosition, firstYPosition]];
+// snakeBody = snakeBody.concat(firstPosition[0]);
+
+console.log(snakeBody);
+
+//set a directions array
+
+let directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+
+//next direction: 
+    //-start with a random direction (randomly pick an item of the array)
+    // with math random
+
+let nextDirectionIndex = getRandomInt(0, 3)
+
+nextDirection = directions[nextDirectionIndex]
+
+    // following direction is the same as before, change nothing until
+    //there is someone else's input
+
+    // change of direction following someone's input
+
+    window.addEventListener("keydown", function(event) {
+      
+        switch(event.code) {
+          case "KeyS":
+          case "ArrowDown":
+            nextDirection = directions[1];
+            break;
+          case "KeyW":
+          case "ArrowUp":
+            nextDirection = directions[0];
+            break;
+          case "KeyA":
+          case "ArrowLeft":
+            nextDirection = directions[3];
+            break;
+          case "KeyD":
+          case "ArrowRight":
+            nextDirection = directions[2];
+            break;
+        }
+      });
+
+
+    // move: add the following item as a coordinate array to the array 
+    //at the beginning and remove the last
+
+    function sumArr(a, b) {
+        let c = a[0]
+        let d = a[1]
+        let e = b[0]
+        let f = b[1]
+          x = c + e;
+          y = d + f;
+          return [x, y];
+         }
+
+function moveSnake(){
+    let newItem = sumArr(snakeBody[0], nextDirection);
+    snakeBody = snakeBody.concat(newItem);
+
+
+    let snakeLastPosition = snakeBody[snakeBody.length-1]
+    snakeBody.pop(snakeLastPosition);
+}
+
+
+    // end if hitting wall
+    
+    
+
+    //end if hitting himself
+
+
+    // meet apple
+        // add cell to the object
+
+        //remove nothing
