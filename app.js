@@ -2,8 +2,10 @@
 
 //Starting point:
 
+const pointEquals = function([x1,y1],[x2,y2]){
+    return x1==x2 && y1==y2;
+}
 //onclick
-
 //set the correct amount of div
 let gridLength = 25;
 
@@ -28,11 +30,11 @@ function applyClasstoCell (array, classID){
     let x = -1;
     let y = -1;
     let itemID = "";
-    for (i=0; i<=array.length; i++) {
-        x = array[i][0];
-        console.log("this is x " + x)
-        y = array[i][1];
-        console.log("this is y " + y)
+    for ([x,y] of array) {
+        // x = array[i][0];
+        // console.log("this is x " + x)
+        // y = array[i][1];
+        // console.log("this is y " + y)
         itemID = "x" + x + "y" + y
         console.log("this is the item to which we apply the class: " + itemID);
         let element = document.getElementById(itemID);
@@ -92,7 +94,7 @@ function createSnake(){
     //add the snakeStart to the grid
     let snakeId = "x" + snakeStart[0] + "y" + snakeStart[1]
     let  snake = document.getElementById(snakeId);
-    snake.classList.add("snakeBody");
+    snake.classList=["snakeBody"];
     return;
 }
 
@@ -104,7 +106,7 @@ function createApple(){
     // add the apple to the grid
     let appleIdToFind = "x" + apple[0] + "y" + apple[1]
     let  appleFound = document.getElementById(appleIdToFind);
-    appleFound.classList.add("apple");
+    appleFound.classList=["apple"];
     return;
 }
 
@@ -186,103 +188,76 @@ let snakeBody = [sumArr(snakeStart, nextDirection), snakeStart];
 
 // removeClassfromCell("snakeBody");
 
-function endGame(){
+function renderEndGame(){
     document.getElementById("endGame").innerHTML = "Game Over!";
     document.getElementById("endGame").style.backgroundColor = "yellow";
     return clearInterval(runFunction);;
 }
 
-// // endGame();
+// // renderEndGame();
 
 // // applyClasstoCell(arrayEx, "snakeBody");
 // // applyClasstoCell(snakeBody, "snakeBody");
-
-
-// //move the snake:
-// // newItem is the head of the snake 
-// let newItem = [];
-// function moveSnake(){
-//     newItem = sumArr(snakeBody[0], nextDirection);
-//     console.log("newItem: " + newItem)
-//     // console.log(typeof(newItem));
-//     // console.log(typeof(apple));
-//     // newItemArr = newItem.flat();
-//     // appleArr = apple.flat();
-    
-//     // //check new item in the array, if it matches the apple add item
-//     // //don't remove any, and continue
-//     if (newItemArr !== appleArr) {
-//         snakeBody = newItem.concat(snakeBody);
-//         snakeBody = snakeBody.flat();
-//         snakeBody = separate(snakeBody, 2);
-//         // remove last item and add the new one
-//         let snakeLastPosition = snakeBody.pop();
-//         console.log("snakeLastPosition: " + snakeLastPosition + "snakebody: " + snakeBody);
-//         let sLPIdx = "x" + snakeLastPosition[0] + "y" + snakeLastPosition[1]
-//         // console.log("this is the last position index" + sLPIdx)
-//         let sLP = document.getElementById(sLPIdx);
-//         // console.log(sLP)
-//         sLP.classList.remove("snakeBody");
-//     } else {
-//         snakeBody = separate(snakeBody, 2);
-//         // console.log(snakeBody);
-//         applyClasstoCell(snakeBody, "snakeBody");
-//         // console.log(snakeBody);
-//     }
-//     // snakeBody = snakeBody.flat();
-//     // snakeBody = separate(snakeBody, 2);
-//     // console.log(snakeBody);
-//     applyClasstoCell(snakeBody, "snakeBody");
-// }
 
 
 
 //move Snake
 let newItem = [];
 
-function moveSnake() {
-    newItem = sumArr(snakeBody[0], nextDirection);
-    snakeBody = newItem.concat(snakeBody);
-    if (newItemArr !== appleArr) {
+function moveSnake(where) {
+    newItem = where; 
+    snakeBody = [newItem].concat(snakeBody);
+    if (!pointEquals(newItem, apple)) {
         let snakeLastPosition = snakeBody.pop();
         // console.log("snakeLastPosition: " + snakeLastPosition + "snakebody: " + snakeBody);
         let sLPIdx = "x" + snakeLastPosition[0] + "y" + snakeLastPosition[1]
         // console.log("this is the last position index" + sLPIdx)
         let sLP = document.getElementById(sLPIdx);
         // console.log(sLP)
-        sLP.classList.remove("snakeBody");
-} 
-applyClasstoCell(snakeBody, "snakeBody");
-return snakeBody;
+        sLP.classList=[];
+    } else {
+        createApple();
+    }
+    applyClasstoCell(snakeBody, "snakeBody");
+    return snakeBody;
 }
 
 
 //     console.log(snakeBody);
 //  moveSnake();
-let runFunction = setInterval(stopSnake, 1000);
 
 // console.log("this is the new item before stopSnake: " + newItem);
 
-function stopSnake(){
-    
-    console.log("this is the new item before stopSnake: " + newItem);
+const selfBite = function(head,snakeBody){
+    for (chunk of snakeBody) {
+        if (pointEquals(head, chunk)) {
+            return true;
+    } return false;
+};}
+
+function isWall (head,gridLength) {
+    if (head[0] < 0 || head[0] > gridLength || head[1]<0 || head[1]> gridLength) {
+        return true;
+    } return false;
+}
+
+
+function stopSnake(head){
     // //loop through the items in the array, if it matches the new item 
     // // stop the game
-    for (i=0; i< snakeBody.length; i++) {
-        if (newItem == snakeBody[i]) {
-            endGame();
-            clearInterval(runFunction);
-        } else {
-            // //check new items of the array, if it matches one of the walls
-            // //stop the game
-            if (newItem[0] < 0 || newItem[0] > gridLength || newItem[1]<0 || newItem[1]> gridLength) {
-                endGame();
-                clearInterval(runFunction);
-            } else {
-                // moveSnake();
-                return moveSnake();
-            }
-        }}}
+    //tail = snakeBody - head
+    if (selfBite(head, snakeBody)) {
+        renderEndGame();
+        clearInterval(runFunction);
+    }
+    // //check new items of the array, if it matches one of the walls
+    // //stop the game
+    if (isWall(head, gridLength)){
+        renderEndGame();
+        clearInterval(runFunction);
+    } 
+        
+}
         
         // stopSnake();
         
@@ -294,7 +269,12 @@ function stopSnake(){
         
         
         
-        
+        let runFunction = setInterval(gameLoop, 1000);
+        function gameLoop(){
+            let newHead = sumArr(snakeBody[0], nextDirection);
+            stopSnake(newHead)
+            moveSnake(newHead)
+        }  
         
         
         
@@ -381,14 +361,14 @@ function stopSnake(){
         //     // // stop the game
         //         for (i=0; i< snakeBody.length; i++) {
         //             if (newItem == snakeBody[i]) {
-        //                 endGame();
+        //                 renderEndGame();
         //                 break;
         //             } else {
         //     // //check new items of the array, if it matches one of the walls
         //     // //stop the game
         //         for (j=0; j< wallsArr.length; j++) {
         //             if (newItem == wallsArr[j]) {
-        //                 endGame();
+        //                 renderEndGame();
         //                 break;
         //             } else {
         //     // //check new item in the array, if it matches the apple add item
