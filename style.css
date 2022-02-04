@@ -1,10 +1,29 @@
 
 body {
-    display: flex;
+    display: grid;
     background-color: rgb(2, 2, 2);
 }
+
+section {
+    /* display: grid; */
+    background-color: rgb(2, 2, 2);
+}
+
+#left{
+    grid: 1 2;
+    justify-self: center;
+}
+
+.body{
+    grid: 1 1;
+}
+
 .snakeBody {
     background-color: blue;
+}
+
+.snake2Body {
+    background-color: green;
 }
 
 .apple {
@@ -16,15 +35,19 @@ body {
 #grid { 
     display: inline-grid; 
     background-color: rgb(5, 5, 5);
-    margin: 5rem;
-    padding: auto;
+    margin: 10% 25%;
+    padding: 3%;
+    border: 2px solid goldenrod;
     z-index: -1;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
+    /* width: 100%;
+    height: 100%; */
+    position: center;
+    /* top: 0;
+    left: 0; */
 }
+
+
+
 
 div { 
     background-color: grey;
@@ -36,22 +59,28 @@ div {
 
 
 #endGame {
-    font-size: 5rem;
-    /* background-color: yellow; */
+    font-size: 3rem;
+    justify-self: center;
     z-index:10;
     position: relative;
-    /* padding: 2rem;
-    margin: 2rem; */
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 
-.container {
+#container {
     width: 90%;
     height: 90%;
     margin: 1rem;
+    background-color: black;
   }
   
-  button {
+button {
     background-color: lightgrey;
     font-size: 1rem;
+}
+
+.snakeSize {
+    color:white;
+    padding: auto;
+    margin: auto;
 }

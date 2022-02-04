@@ -2,14 +2,47 @@
 
 //Starting point:
 
+let head = [];
+let snakeBody = [];
+
+
+function reset() {
+    let head = [];
+    let snakeBody = [];
+};
+
+
+// Set up math functions to utilize in the game
+
+// function to evaluate if two points in the grids are the same
 const pointEquals = function([x1,y1],[x2,y2]){
     return x1==x2 && y1==y2;
 }
-//onclick
-//set the correct amount of div
+
+//math-random to pick the first position
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
+//used to compute nextPosition of snake head
+//calculate the coordinates of the new head in an array of arrays
+function sumArr(a, b) {
+    let c = a[0];
+    let d = a[1];
+    let e = b[0];
+    let f = b[1];
+    x = c + e;
+    y = d + f;
+    return [x, y];
+};
+
+
+//set the size of the grid
 let gridLength = 25;
 
-//make a grid
+//create the grid
 function makeGrid(){
     let container = document.getElementById("grid");
     for (let i=0; i<gridLength; i++){
@@ -22,65 +55,18 @@ function makeGrid(){
     return;
 }
 
-
-
 // define a function that applies a class to the cells  of the array
-
 function applyClasstoCell (array, classID){
     let x = -1;
     let y = -1;
     let itemID = "";
     for ([x,y] of array) {
-        // x = array[i][0];
-        // console.log("this is x " + x)
-        // y = array[i][1];
-        // console.log("this is y " + y)
         itemID = "x" + x + "y" + y
         console.log("this is the item to which we apply the class: " + itemID);
         let element = document.getElementById(itemID);
         console.log("this is the element: " + element);
-        element.classList.add(classID);
+        element.classList = [classID];
     } return;
-}
-
-makeGrid();
-// let arrayEx = [ [0,1], [3,4] ];
-// applyClasstoCell(arrayEx, "snakeBody");
-
-
-//identify the game boundaries
-// let wallsItems = [];
-//  for(i=1; i<=gridLength; i++) {
-//     let item = [0, i];
-//     wallsItems = wallsItems.concat(item);
-//     item = [i, 0];
-//     wallsItems = wallsItems.concat(item);
-//     item = [i, gridLength];
-//     wallsItems = wallsItems.concat(item);
-//     item = [gridLength, i];
-//     wallsItems = wallsItems.concat(item);
-//  }
-
-function separate(array, size) {
-    const chunkedArr = [];
-    let index = 0;
-    while (index < array.length) {
-        chunkedArr.push(array.slice(index, size + index));
-        index += size;
-    }
-    return chunkedArr;
-};
-
-//  wallsArr = separate(wallsItems, 2);
-
-// console.log(wallsArr);
-
-
-//math-random pick the first position
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min) + min);
 }
 
 //change max depending on the game size --> to make into a variable later, 
@@ -98,9 +84,9 @@ function createSnake(){
     return;
 }
 
+ //create the apple
 let apple = [];
 function createApple(){
-    //create the apple
     apple = [getRandomInt(1, gridLength-10), getRandomInt(1, gridLength-10)];
     console.log(apple);
     // add the apple to the grid
@@ -111,12 +97,12 @@ function createApple(){
 }
 
 
-createSnake();
-console.log("here is the snake: " + snakeStart)
-createApple();
-console.log("here is the apple: " + apple)
-//set a directions array and pick a random direction
+// createSnake();
+// console.log("here is the snake: " + snakeStart)
+// createApple();
+// console.log("here is the apple: " + apple)
 
+//set a directions array and pick a random direction
 const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
 
 let nextDirectionIndex = getRandomInt(0, 4)
@@ -128,86 +114,71 @@ console.log("this is the next direction: " + nextDirection)
 //there is someone else's input
 
 // change of direction following someone's input
-let body = document.getElementById("body");
-body.addEventListener("keydown", function(e) {
+// let body = document.getElementById("body");
+window.addEventListener("keydown", function(e) {
     switch(e.code) {
-        case "KeyS":
         case "ArrowDown":
         return nextDirection = directions[2];
         console.log("I pressed the arrow down")
-        case "KeyW":
         case "ArrowUp":
         return nextDirection = directions[3];
         console.log("I pressed the arrow up")
-        case "KeyA":
         case "ArrowLeft":
         return nextDirection = directions[1];
         console.log("I pressed the arrow left")
-        case "KeyD":
         case "ArrowRight":
         return nextDirection = directions[0];
         console.log("I pressed the arrow right")
     }
 });
 
-//used to compute nextPosition of snake head
-//calculate the coordinates of the new item in the array of arrays
-function sumArr(a, b) {
-    let c = a[0];
-    let d = a[1];
-    let e = b[0];
-    let f = b[1];
-    x = c + e;
-    y = d + f;
-    return [x, y];
-};
 
-console.log(sumArr(snakeStart, nextDirection));
+// control for snake2!
+// window.addEventListener("keydown", function(e) {
+//     switch(e.code) {
+//         case "KeyS":
+//         return nextDirection = directions[2];
+//         console.log("I pressed the arrow down")
+//         case "KeyW":
+//         return nextDirection = directions[3];
+//         console.log("I pressed the arrow up")
+//         case "KeyA":
+//         return nextDirection = directions[1];
+//         console.log("I pressed the arrow left")
+//         case "KeyD":
+//         return nextDirection = directions[0];
+//         console.log("I pressed the arrow right")
+//     }
+// });
 
+// console.log(sumArr(snakeStart, nextDirection));
+
+function initializeGame(){
+    makeGrid();
+    createSnake();
+    createApple();
+}
+
+initializeGame();
 
 
 // move: add the following item as a coordinate array to the array 
 //at the beginning and remove the last
-let snakeBody = [sumArr(snakeStart, nextDirection), snakeStart];
-
-
-
-//apply the correct class to the snake's body
-// applyClasstoCell(snakeBody, "snakeBody");
-
-// console.log("this is the start of the snake: " + snakeStart)
-// console.log("this is the next direction: " + nextDirection)
-// console.log("this is the second item: " + secondItem)
-
-
-//define a function that removes a class from the cell
-// function removeClassfromCell (elemClass){
-//     let element = document.getElementsByClassName(elemClass)
-//     element.classList.remove(elemClass);
-//     } 
-
-// removeClassfromCell("snakeBody");
+snakeBody = [sumArr(snakeStart, nextDirection), snakeStart];
+// snakeBody = [[10,10],[10,11],[10,12],[10,13],[10,14],[10,15],[10,16],[10,17][11,17],[12,17],[13,17],[14,17],[15,17]];
 
 function renderEndGame(){
-    document.getElementById("endGame").innerHTML = "Game Over!";
+    document.getElementById("endGame").innerHTML = "Game Over! " + snakeBody.length + " chunks in your snake!";
     document.getElementById("endGame").style.backgroundColor = "yellow";
     return clearInterval(runFunction);;
 }
 
-// // renderEndGame();
-
-// // applyClasstoCell(arrayEx, "snakeBody");
-// // applyClasstoCell(snakeBody, "snakeBody");
-
-
 
 //move Snake
-let newItem = [];
-
 function moveSnake(where) {
-    newItem = where; 
-    snakeBody = [newItem].concat(snakeBody);
-    if (!pointEquals(newItem, apple)) {
+    head = where; 
+    snakeBody = [head].concat(snakeBody);
+    if (!pointEquals(head, apple)) {
         let snakeLastPosition = snakeBody.pop();
         // console.log("snakeLastPosition: " + snakeLastPosition + "snakebody: " + snakeBody);
         let sLPIdx = "x" + snakeLastPosition[0] + "y" + snakeLastPosition[1]
@@ -222,13 +193,16 @@ function moveSnake(where) {
     return snakeBody;
 }
 
+function snakeSize(){
+    let size = snakeBody.length;
+    document.getElementById("snakeSize").innerHTML = "Congratulations! Your snake is long: " + size + " chunks!";
+    document.getElementById("snakeSize").style.backgroundColor = "grey";
+    return;
+}
 
-//     console.log(snakeBody);
-//  moveSnake();
 
-// console.log("this is the new item before stopSnake: " + newItem);
 
-const selfBite = function(head,snakeBody){
+function selfBite(head,snakeBody){
     for (chunk of snakeBody) {
         if (pointEquals(head, chunk)) {
             return true;
@@ -250,31 +224,59 @@ function stopSnake(head){
         renderEndGame();
         clearInterval(runFunction);
     }
+
     // //check new items of the array, if it matches one of the walls
     // //stop the game
     if (isWall(head, gridLength)){
         renderEndGame();
         clearInterval(runFunction);
-    } 
-        
+    }      
 }
         
-        // stopSnake();
-        
-        
-        function stopGame(){
-            return clearInterval(runFunction);
+// stopSnake(); 
+function stopGame(){
+    return clearInterval(runFunction);
         }
         
+//set up the difficulty
+
+let setTime = 500; 
+
+let setEasy = document.getElementById("easy");
+setEasy.addEventListener("click", selectEasy);
+function selectEasy(){
+    setTime = 500;
+    return;
+ }
+let setNormal = document.getElementById("normal");
+setNormal.addEventListener("click", selectNormal);
+function selectNormal(){
+    setTime = 700;
+    return;
+ }
+let setHard = document.getElementById("hard");
+setHard.addEventListener("click", selectHard);
+function selectHard(){
+    setTime = 500;
+    return;
+ }
+let setVeryHard = document.getElementById("veryHard");
+setVeryHard.addEventListener("click", selectVeryHard);
+function selectVeryHard(){
+   setTime = 300;
+   return;
+}
         
-        
-        
-        let runFunction = setInterval(gameLoop, 1000);
-        function gameLoop(){
-            let newHead = sumArr(snakeBody[0], nextDirection);
-            stopSnake(newHead)
-            moveSnake(newHead)
-        }  
+let runFunction = setInterval(gameLoop, setTime);
+
+
+
+function gameLoop(){
+    let newHead = sumArr(snakeBody[0], nextDirection);
+    stopSnake(newHead);
+    moveSnake(newHead);
+    snakeSize();
+        } 
         
         
         
@@ -297,99 +299,12 @@ function stopSnake(head){
         // // can keep track of my stats (maximum points, average points, etc.) between games
         
         
-        
-        // // THE STATE
-        // // The snake has two important features: a body, and a intended direction
-        
-        // let snake = {
-        //     body: [ [10, 5], [10, 6], [10, 7], [10, 8] ],
-        //     nextDirection: [1, 0]
-        //  }
-        // // Every time the game tick() happens, you need to remove the "tail of the snake" (the sub-array at position 0) and tack on a new "head" (you can use the last sub-array and the nextDirection to generate the new final sub-array).
-        
-        // // However, if it is eating an apple, you won't remove the tail when the snake grows, you'll simply add the new head without doing that.
-        
-        // // Overall your state can look like this:
-        
-        // let gameState = {
-        //   apple: [11, 8],
-        //  snake: snake // from above
-        // }
-        // // SOME HARD PARTS
-        // // Here we have a game that is updating with or without user input... once the game starts the snake will start moving right away, prompting the user to start making decisions for the sake of their snake.
-        
-        // // You'll have to listen for keydown events. These come with data on which key has been pressed, so you can set things like the nextDirection property whenever the event fires. You should make a decision if it's possible for the snake to set a nextDirection that would put its head in its own throat (the second-to-last position) or not... this will effect how the gameplay feels.
-        
-        // // You'll have to determine if the snake is self-intersecting (if the "head" is the same value as any of its parts) after each tick()... if so, the game is over. The same goes for walls, which are simply any index outside the bounds of the grid.
-        
-        // function findGridPosition(gridLength, item) {
-        //     let gridPosition = (item[1]-1)*gridLength + item[0];
-        //     return gridPosition;
-        // }
-        
-        // console.log(findGridPosition(5, [3,3]));
-        
-        // function addSnake(snake) {
-        // for (let i=0; i<625; i++){
-        //     let snakeGridPosition = findGridPosition(25, snake);
-        //     if ( i == snakeGridPosition) {
-        //         let div = document.getElementsByTagName("div")[i];
-        //         return div.classList.add("snakeBody");
-        //         }
+        // function separate(array, size) {
+        //     const chunkedArr = [];
+        //     let index = 0;
+        //     while (index < array.length) {
+        //         chunkedArr.push(array.slice(index, size + index));
+        //         index += size;
         //     }
-        // }
-        // addSnake(snakeStart);
-        // function addApple() {
-        //     for (let i=0; i<625; i++){
-        //         let appleGridPosition = findGridPosition(25, apple);
-        //         if ( i == appleGridPosition) {
-        //             let div = document.getElementsByTagName("div")[i];
-        //             return div.classList.add("apple");
-        //             }
-        //         }
-        //     }
-        //     addApple();
-        
-        
-        
-        // //move the snake:
-        
-        // function moveSnake(){
-        //     let newItem = sumArr(snakeBody[0], nextDirection);
-        //         console.log(newItem);
-        //     // //loop through the items in the array, if it matches the new item 
-        //     // // stop the game
-        //         for (i=0; i< snakeBody.length; i++) {
-        //             if (newItem == snakeBody[i]) {
-        //                 renderEndGame();
-        //                 break;
-        //             } else {
-        //     // //check new items of the array, if it matches one of the walls
-        //     // //stop the game
-        //         for (j=0; j< wallsArr.length; j++) {
-        //             if (newItem == wallsArr[j]) {
-        //                 renderEndGame();
-        //                 break;
-        //             } else {
-        //     // //check new item in the array, if it matches the apple add item
-        //     // //don't remove any, and continue
-        //             if (newItem == apple) {
-        //                 snakeBody = [newItem, snakeBody]; 
-        //                 console.log(snakeBody);}  
-        //             else {
-        //                 snakeBody = [newItem, snakeBody];
-        //     // //and remove last item and add the new one
-        //             let snakeLastPosition = snakeBody[snakeBody.length-1]
-        //             snakeBody.pop(snakeLastPosition);
-        
-        //                 }
-        //                 }
-        //             }
-        //             }
-        //             }
-        //             applyClasstoCell(snakeBody, "snakeBody");
-        //             // let nthItem = "x" + newItem[0] + "y" + newItem[1]
-        //             // let nthsnake = document.getElementById(nthItem);
-        //             // nthsnake.classList.add("snakeBody");
-        //         }
-        
+        //     return chunkedArr;
+        // };

@@ -10,24 +10,34 @@
     <script defer src="app.js"></script>
 
 </head>
-
-<header><button onclick="gameLoop()">
+<body>
+<section id="left">
+    <button onclick="gameLoop()">
     Start the game!
-    </button></header>
-<body id="body">
+    </button>
+    <select id="select">
+        <option id='easy' value="easy">Easy</option>
+        <option id='normal' value="normal">Normal</option>
+        <option id='hard' value="hard">Hard</option>
+        <option id='veryHard' value="veryHard">Very Hard</option>
+      </select>
+    <button onclick="stopGame()">
+        Stop the game
+        </button>
+    <button id="snakeSize"></button>
 
+    </section>
+
+
+<section id="body">
 
 <div id="container">
    <div id="endGame"></div>
    <div id="grid"></div>
 </div>
-    
-<button onclick="stopGame()">
-    Stop the game
-    </button>
 
-    
+</section>
 
-    
 </body>
+
 </html>
