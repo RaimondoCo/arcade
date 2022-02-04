@@ -57,14 +57,11 @@ function makeGrid(){
 
 // define a function that applies a class to the cells  of the array
 function applyClasstoCell (array, classID){
-    let x = -1;
-    let y = -1;
-    let itemID = "";
     for ([x,y] of array) {
-        itemID = "x" + x + "y" + y
-        console.log("this is the item to which we apply the class: " + itemID);
+        let itemID = "x" + x + "y" + y
+        // console.log("this is the item to which we apply the class: " + itemID);
         let element = document.getElementById(itemID);
-        console.log("this is the element: " + element);
+        // console.log("this is the element: " + element);
         element.classList = [classID];
     } return;
 }
@@ -76,7 +73,7 @@ function applyClasstoCell (array, classID){
 let snakeStart = [];
 function createSnake(){
     snakeStart = [getRandomInt(1, gridLength-10), getRandomInt(1, gridLength-10)];
-    console.log(snakeStart)
+    // console.log(snakeStart)
     //add the snakeStart to the grid
     let snakeId = "x" + snakeStart[0] + "y" + snakeStart[1]
     let  snake = document.getElementById(snakeId);
@@ -88,27 +85,19 @@ function createSnake(){
 let apple = [];
 function createApple(){
     apple = [getRandomInt(1, gridLength-10), getRandomInt(1, gridLength-10)];
-    console.log(apple);
-    // add the apple to the grid
-    let appleIdToFind = "x" + apple[0] + "y" + apple[1]
-    let  appleFound = document.getElementById(appleIdToFind);
-    appleFound.classList=["apple"];
+    console.log('app: ',apple);
     return;
 }
 
 
-// createSnake();
-// console.log("here is the snake: " + snakeStart)
-// createApple();
-// console.log("here is the apple: " + apple)
 
 //set a directions array and pick a random direction
 const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
 
 let nextDirectionIndex = getRandomInt(0, 4)
-console.log("this is the next direction index: " + nextDirectionIndex)
+// console.log("this is the next direction index: " + nextDirectionIndex)
 nextDirection = directions[nextDirectionIndex]
-console.log("this is the next direction: " + nextDirection)
+// console.log("this is the next direction: " + nextDirection)
 
 // the following direction is the same as before, change nothing until
 //there is someone else's input
@@ -119,37 +108,37 @@ window.addEventListener("keydown", function(e) {
     switch(e.code) {
         case "ArrowDown":
         return nextDirection = directions[2];
-        console.log("I pressed the arrow down")
+        // console.log("I pressed the arrow down")
         case "ArrowUp":
         return nextDirection = directions[3];
-        console.log("I pressed the arrow up")
+        // console.log("I pressed the arrow up")
         case "ArrowLeft":
         return nextDirection = directions[1];
-        console.log("I pressed the arrow left")
+        // console.log("I pressed the arrow left")
         case "ArrowRight":
         return nextDirection = directions[0];
-        console.log("I pressed the arrow right")
+        // console.log("I pressed the arrow right")
     }
 });
 
 
 // control for snake2!
-// window.addEventListener("keydown", function(e) {
-//     switch(e.code) {
-//         case "KeyS":
-//         return nextDirection = directions[2];
-//         console.log("I pressed the arrow down")
-//         case "KeyW":
-//         return nextDirection = directions[3];
-//         console.log("I pressed the arrow up")
-//         case "KeyA":
-//         return nextDirection = directions[1];
-//         console.log("I pressed the arrow left")
-//         case "KeyD":
-//         return nextDirection = directions[0];
-//         console.log("I pressed the arrow right")
-//     }
-// });
+window.addEventListener("keydown", function(e) {
+    switch(e.code) {
+        case "KeyS":
+        return nextDirection2 = directions[2];
+        console.log("I pressed the arrow down")
+        case "KeyW":
+        return nextDirection2 = directions[3];
+        console.log("I pressed the arrow up")
+        case "KeyA":
+        return nextDirection2 = directions[1];
+        console.log("I pressed the arrow left")
+        case "KeyD":
+        return nextDirection2 = directions[0];
+        console.log("I pressed the arrow right")
+    }
+});
 
 // console.log(sumArr(snakeStart, nextDirection));
 
@@ -190,6 +179,7 @@ function moveSnake(where) {
         createApple();
     }
     applyClasstoCell(snakeBody, "snakeBody");
+    applyClasstoCell([apple], "apple")
     return snakeBody;
 }
 
@@ -239,36 +229,29 @@ function stopGame(){
         }
         
 //set up the difficulty
+let selection = document.getElementById("selection")
+let startGame = document.getElementById("startGame")
 
-let setTime = 500; 
 
-let setEasy = document.getElementById("easy");
-setEasy.addEventListener("click", selectEasy);
-function selectEasy(){
-    setTime = 500;
-    return;
- }
-let setNormal = document.getElementById("normal");
-setNormal.addEventListener("click", selectNormal);
-function selectNormal(){
-    setTime = 700;
-    return;
- }
-let setHard = document.getElementById("hard");
-setHard.addEventListener("click", selectHard);
-function selectHard(){
-    setTime = 500;
-    return;
- }
-let setVeryHard = document.getElementById("veryHard");
-setVeryHard.addEventListener("click", selectVeryHard);
-function selectVeryHard(){
-   setTime = 300;
-   return;
-}
-        
+startGame.addEventListener("click", gameLoop())
+
+
+// function setTime() {
+// let setTime = -1; 
+//     switch(selection) {
+//         case "easy":
+//         return setTime = 1000;
+//         case "normal":
+//         return setTime = 700;
+//         case "hard":
+//         return setTime = 500;
+//         case "veryHard":
+//         return setTime = 300;
+//     }
+// };
+
+        let setTime = 500;
 let runFunction = setInterval(gameLoop, setTime);
-
 
 
 function gameLoop(){
