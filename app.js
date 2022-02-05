@@ -4,6 +4,7 @@
 
 let head = [];
 let snakeBody = [];
+let snakeBody2 = [];
 
 
 function reset() {
@@ -40,7 +41,7 @@ function sumArr(a, b) {
 
 
 //set the size of the grid
-let gridLength = 25;
+let gridLength = 30;
 
 //create the grid
 function makeGrid(){
@@ -78,6 +79,20 @@ function createSnake(){
     let snakeId = "x" + snakeStart[0] + "y" + snakeStart[1]
     let  snake = document.getElementById(snakeId);
     snake.classList=["snakeBody"];
+    return;
+}
+
+
+
+// create snake 2
+let snake2Start = [];
+function createSnake2(){
+    snake2Start = [getRandomInt(1, gridLength-10), getRandomInt(1, gridLength-10)];
+    // console.log(snakeStart)
+    //add the snakeStart to the grid
+    let snake2Id = "x" + snake2Start[0] + "y" + snake2Start[1]
+    let  snake2 = document.getElementById(snake2Id);
+    snake2.classList=["snake2Body"];
     return;
 }
 
@@ -122,7 +137,7 @@ window.addEventListener("keydown", function(e) {
 });
 
 
-// control for snake2!
+// control for snake2
 window.addEventListener("keydown", function(e) {
     switch(e.code) {
         case "KeyS":
@@ -194,10 +209,12 @@ function snakeSize(){
 
 function selfBite(head,snakeBody){
     for (chunk of snakeBody) {
+        console.log(pointEquals(head, chunk))
         if (pointEquals(head, chunk)) {
             return true;
-    } return false;
-};}
+    } 
+}return false;
+}
 
 function isWall (head,gridLength) {
     if (head[0] < 0 || head[0] > gridLength || head[1]<0 || head[1]> gridLength) {
@@ -222,7 +239,8 @@ function stopSnake(head){
         clearInterval(runFunction);
     }      
 }
-        
+
+
 // stopSnake(); 
 function stopGame(){
     return clearInterval(runFunction);
@@ -232,25 +250,27 @@ function stopGame(){
 let selection = document.getElementById("selection")
 let startGame = document.getElementById("startGame")
 
+startGame.addEventListener("click", gameLoop)
 
-startGame.addEventListener("click", gameLoop())
+
+let setTime = 500;
+
+const selectElement = document.querySelector('.selection');
+
+selectElement.addEventListener('change', function(e) {
+    switch(e.code) {
+        case "easy":
+        return setTime = 1000;
+        case "normal":
+        return setTime = 700;
+        case "hard":
+        return setTime = 500;
+        case "veryHard":
+        return setTime = 300;
+    }
+});
 
 
-// function setTime() {
-// let setTime = -1; 
-//     switch(selection) {
-//         case "easy":
-//         return setTime = 1000;
-//         case "normal":
-//         return setTime = 700;
-//         case "hard":
-//         return setTime = 500;
-//         case "veryHard":
-//         return setTime = 300;
-//     }
-// };
-
-        let setTime = 500;
 let runFunction = setInterval(gameLoop, setTime);
 
 

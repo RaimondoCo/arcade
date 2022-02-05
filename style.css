@@ -51,8 +51,10 @@ section {
 
 div { 
     background-color: grey;
-    grid-template-columns: repeat(25, 15px);
-    grid-template-rows: repeat(25, 15px);
+    /* grid-template-columns: auto;
+    grid-template-rows: auto;*/
+    grid-template-columns: repeat(30, 15px);
+    grid-template-rows: repeat(30, 15px); 
     margin: 0.5px;
     padding: 0.5px;
 }
