@@ -7,9 +7,10 @@ body {
 section {
     display: grid;
     background-color: rgb(2, 2, 2);
+    justify-self: center;
 }
 
-#left{
+#up{
     grid: 1 2;
     justify-self: center;
 }
@@ -31,11 +32,10 @@ section {
 #grid { 
     display: inline-grid; 
     background-color: rgb(5, 5, 5);
-    margin: 10% 25%;
+    margin: 1%;
     padding: 3%;
     border: 2px solid goldenrod;
     z-index: -1;
-    position: center;
 }
 
 
@@ -47,18 +47,7 @@ div {
     grid-template-rows: repeat(30, 15px); 
     margin: 0.5px;
     padding: 0.5px;
-    animation-name: slidein infinite;
 }
-
-@keyframes slidein {
-    from {
-        transform: translateX(0%);
-    }
-  
-    to {
-        transform: translateX(100%);
-    }
-  }
 
 
 #endGame {

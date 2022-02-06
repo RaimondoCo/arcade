@@ -6,12 +6,6 @@ let head = [];
 let snakeBody = [];
 
 
-function reset() {
-    let head = [];
-    let snakeBody = [];
-};
-
-
 // Set up math functions to utilize in the game
 
 // function to evaluate if two points in the grids are the same
@@ -59,14 +53,6 @@ function makeGrid(){
     return;
 }
 
-//set the grid in css
-var r = document.querySelector(':root');
-function getDiv() {
-    var rs = getComputedStyle(r);
-}
-function setDiv() {
-    r.style.setProperty(`--repeat(30, 15px)`, `repeat(${ gridLength }, 15px)` )
-}
 
 
 // define a function that applies a class to the cells  of the array
@@ -95,7 +81,7 @@ function createSnake(){
     return;
 }
 
- //create the apple
+ //create the apple 
 let apple = [];
 function createApple(){
     apple = [getRandomInt(1, gridLength-10), getRandomInt(1, gridLength-10)];
@@ -141,9 +127,6 @@ function initializeGame(){
     nextDirection = directions[nextDirectionIndex]
     snakeBody = [sumArr(snakeStart, nextDirection), snakeStart];
 }
-
-
-
 
 // move: add the following item as a coordinate array to the array 
 //at the beginning and remove the last
