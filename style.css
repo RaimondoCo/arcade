@@ -5,7 +5,7 @@ body {
 }
 
 section {
-    /* display: grid; */
+    display: grid;
     background-color: rgb(2, 2, 2);
 }
 
@@ -14,7 +14,7 @@ section {
     justify-self: center;
 }
 
-.body{
+#body{
     grid: 1 1;
 }
 
@@ -22,18 +22,11 @@ section {
     background-color: blue;
 }
 
-.snake2Body {
-    background-color: green;
-}
 
 .apple {
     background-color: red;
 }
 
-/* img {
-    width: 90%;
-    height: 90%;
-} */
 
 #grid { 
     display: inline-grid; 
@@ -42,11 +35,7 @@ section {
     padding: 3%;
     border: 2px solid goldenrod;
     z-index: -1;
-    /* width: 100%;
-    height: 100%; */
     position: center;
-    /* top: 0;
-    left: 0; */
 }
 
 
@@ -84,13 +73,15 @@ div {
 #container {
     width: 90%;
     height: 90%;
-    margin: 1rem;
     background-color: black;
   }
   
 button {
     background-color: lightgrey;
-    font-size: 1rem;
+    font-size: 1.5rem;
+    padding: 1rem;
+    margin: 0.5rem;
+    width: 50rem;
 }
 
 .snakeSize {
@@ -98,3 +89,11 @@ button {
     padding: auto;
     margin: auto;
 }
+
+.selection {
+    font-size: 1.5rem;
+    padding: 1rem;
+    margin: 0.5rem;
+    width: 50rem;
+}
+

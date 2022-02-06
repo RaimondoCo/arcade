@@ -4,7 +4,6 @@
 
 let head = [];
 let snakeBody = [];
-let snakeBody2 = [];
 
 
 function reset() {
@@ -96,20 +95,6 @@ function createSnake(){
     return;
 }
 
-
-
-// create snake 2
-let snake2Start = [];
-function createSnake2(){
-    snake2Start = [getRandomInt(1, gridLength-10), getRandomInt(1, gridLength-10)];
-    // console.log(snakeStart)
-    //add the snakeStart to the grid
-    let snake2Id = "x" + snake2Start[0] + "y" + snake2Start[1]
-    let  snake2 = document.getElementById(snake2Id);
-    snake2.classList=["snake2Body"];
-    return;
-}
-
  //create the apple
 let apple = [];
 function createApple(){
@@ -139,34 +124,12 @@ window.addEventListener("keydown", function(e) {
 });
 
 
-// control for snake2
-window.addEventListener("keydown", function(e) {
-    switch(e.code) {
-        case "KeyS":
-        return nextDirection2 = directions[2];
-        console.log("I pressed the arrow down")
-        case "KeyW":
-        return nextDirection2 = directions[3];
-        console.log("I pressed the arrow up")
-        case "KeyA":
-        return nextDirection2 = directions[1];
-        console.log("I pressed the arrow left")
-        case "KeyD":
-        return nextDirection2 = directions[0];
-        console.log("I pressed the arrow right")
-    }
-});
-
-
 //set a directions array and pick a random direction
 const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
 
 let nextDirectionIndex = getRandomInt(0, 4)
 // console.log("this is the next direction index: " + nextDirectionIndex)
-
 // console.log("this is the next direction: " + nextDirection)
-
-
 // console.log(sumArr(snakeStart, nextDirection));
 
 function initializeGame(){
@@ -190,6 +153,7 @@ function renderEndGame(){
     // document.getElementById("endGame").innerHTML = "Game Over! " + snakeBody.length + " chunks in your snake!";
     let img = document.querySelector("img");
      img.src = 'GameOver.png';
+     img.style.justifySelf = "center";
     return clearInterval(interval);;
 }
 
@@ -216,7 +180,7 @@ function moveSnake(where) {
 
 function snakeSize(){
     let size = snakeBody.length;
-    document.getElementById("snakeSize").innerHTML = "Congratulations! Your snake is long: " + size + " chunks!";
+    document.getElementById("snakeSize").innerHTML = "Snake chunks count: " + size;
     document.getElementById("snakeSize").style.backgroundColor = "grey";
     return;
 }
@@ -255,32 +219,33 @@ function stopSnake(head){
         clearInterval(interval);
     }      
 }
+let interval;
+let setTime;
+const selectElement = document.getElementById('selection');
+console.log("selectElement: " + selectElement)
+let option = document.getElementById('selection').value;
+console.log("option: " + option)
 
-
-// // stopSnake(); 
-// function stopGame(){
-//     return clearInterval(runFunction);
-//         }
-        
 //set up the difficulty
 let selection = document.getElementById("selection")
 let startGameButton = document.getElementById("startGame")
 startGameButton.addEventListener("click", startGame)
 
 
+selectElement.addEventListener('change', function(){
+    option = document.getElementById("selection").value;
+});
 
-const selectElement = document.querySelector('.selection');
-let setTime = 2000;
-selectElement.addEventListener('change', startGame);
 
-let interval;
-function startGame(level) {
+function startGame() {
     if (!!interval){
         clearInterval(interval);
     }
-    switch(level) {
+    console.log("option inside startGame:" + option);
+
+    switch(option) {
         case "easy":
-            setTime = 700;
+            setTime = 500;
         break;
         case "normal":
             setTime = 300;
@@ -292,19 +257,15 @@ function startGame(level) {
             setTime = 50;
         break;
         default: 
-            setTime = 700;
-    } 
-    // runFunction();
+            setTime = 500;
+        } 
     interval=setInterval(gameLoop, setTime);
+    console.log(setTime);
     initializeGame();
     // document.getElementById("grid").focus()
     document.activeElement.blur();
 }
 
-// function runFunction() {
-//     initializeGame();
-    
-// startGame.addEventListener("click", runFunction())
 
 function gameLoop(){
     let newHead = sumArr(snakeBody[0], nextDirection);
@@ -331,14 +292,4 @@ function gameLoop(){
         
         // // can set the difficulty (speed of snake)
         // // can keep track of my stats (maximum points, average points, etc.) between games
-        
-        
-        // function separate(array, size) {
-        //     const chunkedArr = [];
-        //     let index = 0;
-        //     while (index < array.length) {
-        //         chunkedArr.push(array.slice(index, size + index));
-        //         index += size;
-        //     }
-        //     return chunkedArr;
-        // };
+  

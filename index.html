@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VERY HARD SNAKE</title>
+    <title>SNAKE!</title>
 
     <link rel="stylesheet" href="style.css">
     <script defer src="app.js"></script>
@@ -13,7 +13,7 @@
 <body>
 <section id="left">
     <button id="startGame">
-    Start the game!
+    Start the game
     </button>
     <select class="selection" id="selection">
         <option id='easy' value="easy">Easy</option>
@@ -21,8 +21,8 @@
         <option id='hard' value="hard">Hard</option>
         <option id='veryHard' value="veryHard">Very Hard</option>
       </select>
-    <button onclick="initializeGame()">
-        retry!
+    <button onclick="startGame(option)">
+        retry
         </button>
     <button id="snakeSize"></button>
 
