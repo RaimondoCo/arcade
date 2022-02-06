@@ -46,6 +46,10 @@ let gridLength = 30;
 //create the grid
 function makeGrid(){
     let container = document.getElementById("grid");
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+      }
+    
     for (let i=0; i<gridLength; i++){
         for (let j=0; j<gridLength; j++) {
             let cell = document.createElement("div");
@@ -55,6 +59,16 @@ function makeGrid(){
     }
     return;
 }
+
+//set the grid in css
+var r = document.querySelector(':root');
+function getDiv() {
+    var rs = getComputedStyle(r);
+}
+function setDiv() {
+    r.style.setProperty(`--repeat(30, 15px)`, `repeat(${ gridLength }, 15px)` )
+}
+
 
 // define a function that applies a class to the cells  of the array
 function applyClasstoCell (array, classID){
@@ -105,18 +119,6 @@ function createApple(){
 }
 
 
-
-//set a directions array and pick a random direction
-const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
-
-let nextDirectionIndex = getRandomInt(0, 4)
-// console.log("this is the next direction index: " + nextDirectionIndex)
-nextDirection = directions[nextDirectionIndex]
-// console.log("this is the next direction: " + nextDirection)
-
-// the following direction is the same as before, change nothing until
-//there is someone else's input
-
 // change of direction following someone's input
 // let body = document.getElementById("body");
 window.addEventListener("keydown", function(e) {
@@ -155,26 +157,40 @@ window.addEventListener("keydown", function(e) {
     }
 });
 
+
+//set a directions array and pick a random direction
+const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+
+let nextDirectionIndex = getRandomInt(0, 4)
+// console.log("this is the next direction index: " + nextDirectionIndex)
+
+// console.log("this is the next direction: " + nextDirection)
+
+
 // console.log(sumArr(snakeStart, nextDirection));
 
 function initializeGame(){
+    let img = document.querySelector("img");
+    img.src = '';
     makeGrid();
     createSnake();
     createApple();
+    nextDirection = directions[nextDirectionIndex]
+    snakeBody = [sumArr(snakeStart, nextDirection), snakeStart];
 }
 
-initializeGame();
+
 
 
 // move: add the following item as a coordinate array to the array 
 //at the beginning and remove the last
-snakeBody = [sumArr(snakeStart, nextDirection), snakeStart];
-// snakeBody = [[10,10],[10,11],[10,12],[10,13],[10,14],[10,15],[10,16],[10,17][11,17],[12,17],[13,17],[14,17],[15,17]];
+
 
 function renderEndGame(){
-    document.getElementById("endGame").innerHTML = "Game Over! " + snakeBody.length + " chunks in your snake!";
-    document.getElementById("endGame").style.backgroundColor = "yellow";
-    return clearInterval(runFunction);;
+    // document.getElementById("endGame").innerHTML = "Game Over! " + snakeBody.length + " chunks in your snake!";
+    let img = document.querySelector("img");
+     img.src = 'GameOver.png';
+    return clearInterval(interval);;
 }
 
 
@@ -229,50 +245,66 @@ function stopSnake(head){
     //tail = snakeBody - head
     if (selfBite(head, snakeBody)) {
         renderEndGame();
-        clearInterval(runFunction);
+        clearInterval(interval);
     }
 
     // //check new items of the array, if it matches one of the walls
     // //stop the game
     if (isWall(head, gridLength)){
         renderEndGame();
-        clearInterval(runFunction);
+        clearInterval(interval);
     }      
 }
 
 
-// stopSnake(); 
-function stopGame(){
-    return clearInterval(runFunction);
-        }
+// // stopSnake(); 
+// function stopGame(){
+//     return clearInterval(runFunction);
+//         }
         
 //set up the difficulty
 let selection = document.getElementById("selection")
-let startGame = document.getElementById("startGame")
+let startGameButton = document.getElementById("startGame")
+startGameButton.addEventListener("click", startGame)
 
-startGame.addEventListener("click", gameLoop)
 
-
-let setTime = 500;
 
 const selectElement = document.querySelector('.selection');
+let setTime = 2000;
+selectElement.addEventListener('change', startGame);
 
-selectElement.addEventListener('change', function(e) {
-    switch(e.code) {
-        case "easy":
-        return setTime = 1000;
-        case "normal":
-        return setTime = 700;
-        case "hard":
-        return setTime = 500;
-        case "veryHard":
-        return setTime = 300;
+let interval;
+function startGame(level) {
+    if (!!interval){
+        clearInterval(interval);
     }
-});
+    switch(level) {
+        case "easy":
+            setTime = 700;
+        break;
+        case "normal":
+            setTime = 300;
+        break;
+        case "hard":
+            setTime = 100;
+        break;
+        case "veryHard":
+            setTime = 50;
+        break;
+        default: 
+            setTime = 700;
+    } 
+    // runFunction();
+    interval=setInterval(gameLoop, setTime);
+    initializeGame();
+    // document.getElementById("grid").focus()
+    document.activeElement.blur();
+}
 
-
-let runFunction = setInterval(gameLoop, setTime);
-
+// function runFunction() {
+//     initializeGame();
+    
+// startGame.addEventListener("click", runFunction())
 
 function gameLoop(){
     let newHead = sumArr(snakeBody[0], nextDirection);
@@ -282,8 +314,7 @@ function gameLoop(){
         } 
         
         
-        
-        
+
         
         
         // // // SNAKE
